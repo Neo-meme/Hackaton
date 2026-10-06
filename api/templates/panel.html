@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Panel administrativo</h1>
+
+<p>Bienvenido administrador.</p>
+
+<a href="{% url 'productos_admin' %}">
+    <button>Administrar productos</button>
+</a>
+
+{% endblock %}

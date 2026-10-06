@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div id="loginView" class="view-screen">
+
+    <div class="login-wrapper">
+
+        <div class="login-card anim-fade-left">
+
+            <div class="brand-badge anim-fade-down anim-delay-2">
+                SaIAyines
+            </div>
+
+            <h2 class="anim-fade-up anim-delay-3">Bienvenido</h2>
+
+            <p class="anim-fade-up anim-delay-4">
+                Ingresa para realizar tu pedido rápido
+            </p>
+
+            <form
+                method="post"
+                action="{% url 'login' %}"
+                class="anim-fade-up anim-delay-5"
+            >
+
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="username">Usuario / Correo</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="ej. usuario"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                    >
+                </div>
+
+                <button
+                    type="submit"
+                    id="submitLoginBtn"
+                    class="btn btn-primary btn-full anim-hover-up"
+                >
+                    Iniciar Sesión
+                </button>
+
+            </form>
+
+            {% if error %}
+                <p class="login-error anim-shake">
+                    {{ error }}
+                </p>
+            {% endif %}
+
+        </div>
+
+        <div class="login-info-panel anim-fade-right anim-delay-2">
+
+            <div class="info-images-grid">
+
+                <div class="info-image-box anim-fade-up anim-delay-3 anim-hover-up">
+                    <img
+                        src="{% static 'imgs/img1.jpeg' %}"
+                        alt="Factus Pay Feature 1"
+                    >
+                </div>
+
+                <div class="info-image-box anim-fade-up anim-delay-4 anim-hover-up">
+                    <img
+                        src="{% static 'imgs/img2.jpeg' %}"
+                        alt="Factus Pay Feature 2"
+                    >
+                </div>
+
+            </div>
+
+            <div class="info-text-box anim-fade-up anim-delay-5">
+
+                <h3>Integración Factus Pay & Fast Checkout</h3>
+
+                <p>
+                    Optimizamos la experiencia de usuario (UX)
+                    reduciendo pasos en la compra. Integración de
+                    facturación y pasarela de pago instantánea con
+                    código QR.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

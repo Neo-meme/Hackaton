@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="view-screen">
+
+    <main class="main-container">
+
+        <section class="menu-section">
+
+            <div class="menu-header anim-fade-down">
+                <div>
+                    <h2>Compra creada</h2>
+                    <p class="subtitle">Tu compra ha sido registrada correctamente.</p>
+                </div>
+            </div>
+
+            <div class="checkout-card anim-fade-up">
+
+                <div class="checkout-info anim-fade-left">
+                    <p><strong>Referencia:</strong> {{ transaccion.referencia }}</p>
+                    <p><strong>Monto:</strong> ${{ transaccion.monto }}</p>
+                    <p><strong>Estado del pago:</strong> {{ transaccion.estado_pago }}</p>
+                </div>
+
+                <div class="checkout-qr anim-zoom anim-delay-2">
+                    <h2>Escanea para pagar</h2>
+
+                    <p class="subtitle">
+                        Escanea este código QR para realizar el pago.
+                    </p>
+
+                    <div class="qr-container anim-hover-up">
+                        <img src="{{ qr }}" width="300" alt="Código QR de pago">
+                    </div>
+                </div>
+
+                <div class="checkout-actions anim-fade-up anim-delay-3">
+
+                    <a href="{% url 'verificar_pago' transaccion.id %}">
+                        <button class="btn btn-primary anim-hover-up">
+                            Verificar pago
+                        </button>
+                    </a>
+
+                    <a href="{% url 'productos' %}">
+                        <button class="btn btn-secondary anim-hover-up">
+                            Volver a productos
+                        </button>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

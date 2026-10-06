@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurante FastCheckout | Factus Pay</title>
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    >
+
+    <link rel="stylesheet" href="{% static 'animations.css' %}">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+</head>
+
+<body>
+
+{% if user.is_authenticated %}
+
+    <header class="app-header">
+
+        <div class="header-content">
+
+            <h1 class="logo">
+                Factus<span>Food</span>
+            </h1>
+
+            <div class="user-pill">
+
+                <span>{{ user.username }}</span>
+
+                {% if user.is_staff %}
+                    <span class="badge-role">ADMIN</span>
+                {% else %}
+                    <span class="badge-role">CLIENTE</span>
+                {% endif %}
+
+                <a href="{% url 'cerrar_sesion' %}" class="btn-text">
+                    Salir
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+{% if user.is_authenticated %}
+
+    <footer class="app-footer">
+
+        <div class="footer-content">
+
+            <p class="footer-title">
+                Proyecto Hackatón — Factus Pay
+            </p>
+
+            <div class="footer-right">
+
+                <div class="team-members">
+
+                    <span class="member">Javier Buitrago</span>
+                    <span class="member">Juan Merchan</span>
+                    <span class="member">Samuel Rojas</span>
+                    <span class="member">Rey</span>
+
+                </div>
+
+                <div class="footer-badge">
+
+                    <img
+                        src="{% static 'imgs/ud.gif' %}"
+                        alt="Insignia Equipo"
+                        class="footer-avatar"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+{% endif %}
+
+</body>
+</html>

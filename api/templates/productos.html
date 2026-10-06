@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="view-screen">
+
+    <main class="main-container">
+
+        <section class="menu-section">
+
+            <div class="menu-header anim-fade-down">
+
+                <div>
+                    <h2>Productos</h2>
+                    <p class="subtitle">Bienvenido {{ user.username }}, elige lo que deseas comprar.</p>
+                </div>
+
+                <a href="{% url 'carrito' %}">
+                    <button class="btn btn-secondary anim-hover-up">Ver carrito</button>
+                </a>
+
+            </div>
+
+            <div class="products-grid">
+
+                {% for producto in productos %}
+
+                    <div class="product-card anim-fade-up anim-hover-up">
+
+                        <div class="product-image">
+                            {% if producto.imagen %}
+                                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                            {% else %}
+                                <div class="product-no-image">Sin imagen</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="product-info">
+
+                            <h3>{{ producto.nombre }}</h3>
+
+                            <p class="description">{{ producto.descripcion }}</p>
+
+                            <div class="card-footer">
+                                <span class="price">${{ producto.precio }}</span>
+
+                                <form method="post" action="{% url 'agregar_carrito' producto.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary anim-hover-up">
+                                        Agregar al carrito
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-products anim-fade-up">
+                        <p>No hay productos disponibles.</p>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

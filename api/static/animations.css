@@ -1,0 +1,99 @@
+/* ================================
+   ANIMACIONES GENERALES
+================================ */
+
+.anim-fade {
+    animation: fadeIn 0.7s ease both;
+}
+
+.anim-fade-up {
+    animation: fadeInUp 0.7s ease both;
+}
+
+.anim-fade-down {
+    animation: fadeInDown 0.7s ease both;
+}
+
+.anim-fade-left {
+    animation: fadeInLeft 0.7s ease both;
+}
+
+.anim-fade-right {
+    animation: fadeInRight 0.7s ease both;
+}
+
+.anim-zoom {
+    animation: zoomIn 0.6s ease both;
+}
+
+.anim-shake {
+    animation: shakeX 0.6s ease both;
+}
+
+
+/* ================================
+   RETARDOS
+================================ */
+
+.anim-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.anim-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.anim-delay-3 {
+    animation-delay: 0.3s;
+}
+
+.anim-delay-4 {
+    animation-delay: 0.4s;
+}
+
+.anim-delay-5 {
+    animation-delay: 0.5s;
+}
+
+.anim-delay-6 {
+    animation-delay: 0.6s;
+}
+
+
+/* ================================
+   HOVER
+================================ */
+
+.anim-hover-up {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.anim-hover-up:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.anim-hover-scale {
+    transition: transform 0.25s ease;
+}
+
+.anim-hover-scale:hover {
+    transform: scale(1.03);
+}
+
+
+/* ================================
+   ANIMACIONES PERSONALIZADAS
+================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

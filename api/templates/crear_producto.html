@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="create-product-container">
+    <div class="create-product-card anim-fade-up">
+
+        <h2 class="anim-fade-down">Crear producto</h2>
+        <p class="create-product-subtitle anim-fade-up anim-delay-1">Registra un nuevo producto para FactusFood.</p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="create-form-group anim-fade-up anim-delay-2">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej. Hamburguesa clásica" required>
+            </div>
+
+            <div class="create-form-group anim-fade-up anim-delay-3">
+                <label for="precio">Precio</label>
+                <input type="number" id="precio" name="precio" placeholder="Ej. 15000" min="0" required>
+            </div>
+
+            <div class="create-form-group anim-fade-up anim-delay-4">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" placeholder="Describe el producto..." required></textarea>
+            </div>
+
+            <div class="create-form-group anim-fade-up anim-delay-5">
+                <label for="imagen">Imagen</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*">
+            </div>
+
+            <div class="create-actions anim-fade-up anim-delay-6">
+                <button type="submit" class="btn create-save anim-hover-up">Guardar</button>
+                <a href="{% url 'productos_admin' %}" class="btn create-back anim-hover-up">Volver</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<style>
+
+    .create-product-container {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .create-product-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: 30px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border-color);
+    }
+
+    .create-product-card h2 {
+        margin-bottom: 8px;
+    }
+
+    .create-product-subtitle {
+        color: var(--text-muted);
+        margin-bottom: 25px;
+    }
+
+    .create-form-group {
+        margin-bottom: 18px;
+    }
+
+    .create-form-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .create-form-group input,
+    .create-form-group textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        font-size: 0.95rem;
+        outline: none;
+        background-color: white;
+    }
+
+    .create-form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .create-form-group input:focus,
+    .create-form-group textarea:focus {
+        border-color: var(--primary);
+    }
+
+    .create-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .create-save {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .create-back {
+        background-color: rgba(0, 82, 255, 0.08);
+        color: var(--primary);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .create-save:hover {
+        background-color: var(--primary-hover);
+    }
+
+    .create-back:hover {
+        background-color: rgba(0, 82, 255, 0.15);
+    }
+
+    @media (max-width: 600px) {
+
+        .create-product-container {
+            margin: 25px auto;
+        }
+
+        .create-product-card {
+            padding: 20px;
+        }
+
+        .create-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .create-actions .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+    }
+
+</style>
+{% endblock %}

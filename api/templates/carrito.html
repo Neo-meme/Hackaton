@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="view-screen">
+    <main class="main-container">
+        <section class="menu-section">
+            <div class="menu-header anim-fade-down">
+                <div>
+                    <h2>Mi carrito</h2>
+                    <p class="subtitle">Revisa tus productos antes de realizar el pago.</p>
+                </div>
+
+                <a href="{% url 'productos' %}">
+                    <button class="btn btn-secondary anim-hover-up">Seguir comprando</button>
+                </a>
+
+            </div>
+
+            <div class="products-grid">
+
+                {% for item in productos_carrito %}
+
+                    <div class="product-card anim-fade-up anim-hover-up">
+
+                        <div class="product-image">
+                            {% if item.producto.imagen %}
+                                <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
+                            {% else %}
+                                <div class="product-no-image">Sin imagen</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="product-info">
+
+                            <h3>{{ item.producto.nombre }}</h3>
+
+                            <p class="description">
+                                Precio: ${{ item.producto.precio }}
+                            </p>
+
+                            <div class="card-footer">
+
+                                <div class="action-buttons">
+
+                                    <a href="{% url 'disminuir_carrito' item.id %}">
+                                        <button class="btn btn-secondary anim-hover-up">−</button>
+                                    </a>
+
+                                    <span class="price">{{ item.cantidad }}</span>
+
+                                    <a href="{% url 'aumentar_carrito' item.id %}">
+                                        <button class="btn btn-primary anim-hover-up">+</button>
+                                    </a>
+
+                                </div>
+
+                                <span class="price">
+                                    ${{ item.subtotal }}
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-products anim-fade-up">
+                        <p>Tu carrito está vacío.</p>
+
+                        <a href="{% url 'productos' %}">
+                            <button class="btn btn-primary anim-hover-up">
+                                Ver productos
+                            </button>
+                        </a>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% if productos_carrito %}
+
+                <div class="cart-summary anim-fade-up anim-delay-2">
+
+                    <h2>Total: ${{ total }}</h2>
+
+                    <a href="{% url 'checkout' %}">
+                        <button class="btn btn-primary anim-hover-up">
+                            Comprar
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+</div>
+
+{% endblock %}

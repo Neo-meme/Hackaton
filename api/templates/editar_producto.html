@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="edit-product-container">
+    <div class="edit-product-card anim-fade-up">
+
+        <h2 class="anim-fade-down">Editar producto</h2>
+        <p class="edit-product-subtitle anim-fade-up anim-delay-1">Modifica la información del producto.</p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="edit-form-group anim-fade-up anim-delay-2">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" value="{{ producto.nombre }}" required>
+            </div>
+
+            <div class="edit-form-group anim-fade-up anim-delay-3">
+                <label for="precio">Precio</label>
+                <input type="number" id="precio" name="precio" value="{{ producto.precio }}" required>
+            </div>
+
+            <div class="edit-form-group anim-fade-up anim-delay-4">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" required>{{ producto.descripcion }}</textarea>
+            </div>
+
+            <div class="edit-form-group anim-fade-up anim-delay-5">
+                <label>Imagen actual</label>
+
+                {% if producto.imagen %}
+                    <div class="current-image anim-hover-up">
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                    </div>
+                {% else %}
+                    <p class="no-image">Este producto no tiene imagen.</p>
+                {% endif %}
+            </div>
+
+            <div class="edit-form-group anim-fade-up anim-delay-6">
+                <label for="imagen">Nueva imagen</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*">
+            </div>
+
+            <div class="edit-actions anim-fade-up">
+                <button type="submit" class="btn edit-save anim-hover-up">Guardar cambios</button>
+                <a href="{% url 'productos_admin' %}" class="btn edit-back anim-hover-up">Volver</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<style>
+    .edit-product-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.edit-product-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.edit-product-card h2 {
+    margin-bottom: 8px;
+}
+
+.edit-product-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 25px;
+}
+
+.edit-form-group {
+    margin-bottom: 18px;
+}
+
+.edit-form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.edit-form-group input,
+.edit-form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    outline: none;
+    background-color: white;
+}
+
+.edit-form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.edit-form-group input:focus,
+.edit-form-group textarea:focus {
+    border-color: var(--primary);
+}
+
+.current-image {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    display: inline-block;
+}
+
+.current-image img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    display: block;
+}
+
+.no-image {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.edit-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.edit-save {
+    background-color: var(--primary);
+    color: white;
+}
+
+.edit-back {
+    background-color: rgba(0, 82, 255, 0.08);
+    color: var(--primary);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.edit-save:hover {
+    background-color: var(--primary-hover);
+}
+
+.edit-back:hover {
+    background-color: rgba(0, 82, 255, 0.15);
+}
+
+@media (max-width: 600px) {
+
+    .edit-product-container {
+        margin: 25px auto;
+    }
+
+    .edit-product-card {
+        padding: 20px;
+    }
+
+    .edit-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .edit-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+}
+</style>
+{% endblock %}

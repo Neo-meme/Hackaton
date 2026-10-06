@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recaudos</title>
+</head>
+
+<body>
+
+    <h1>Recaudos de Factus Pay</h1>
+
+    <table border="1">
+
+        <thead>
+            <tr>
+                <th>Referencia</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for recaudo in recaudos %}
+
+            <tr>
+                <td>{{ recaudo.reference_code }}</td>
+                <td>{{ recaudo.amount }}</td>
+                <td>{{ recaudo.status }}</td>
+                <td>{{ recaudo.created_at }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
