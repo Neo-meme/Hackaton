@@ -296,37 +296,50 @@ from api.models import Transaccion
 logger = logging.getLogger(__name__)
 
 
+
 @login_required
 def verificar_pago(request, id):
-    transaccion = get_object_or_404(
-        Transaccion,
-        id=id,
-        usuario=request.user
-    )
+    if request.user.is_staff:
+        transaccion = get_object_or_404(
+            Transaccion,
+            id=id
+        )
+    else:
+        transaccion = get_object_or_404(
+            Transaccion,
+            id=id,
+            usuario=request.user
+        )
 
     resultado = consultar_recaudo(transaccion.referencia)
     estado = resultado["data"]["status"]
 
     if estado == "paid":
         with db_transaction.atomic():
-            # Bloquea la fila para que dos peticiones simultaneas
-            # no creen la factura dos veces
-            transaccion = Transaccion.objects.select_for_update().get(pk=transaccion.pk)
+            transaccion = Transaccion.objects.select_for_update().get(
+                pk=transaccion.pk
+            )
 
             transaccion.estado_pago = "pagado"
 
             if transaccion.estado_factura in ("pendiente", "error"):
                 try:
                     numero_factura = crear_factura(transaccion)
+
                     transaccion.numero_factura = numero_factura
                     transaccion.estado_factura = "generada"
-                    logger.info("Factura generada: %s", numero_factura)
+
+                    logger.info(
+                        "Factura generada: %s",
+                        numero_factura
+                    )
 
                 except Exception:
                     logger.exception(
                         "Error al generar factura Factus (transaccion %s)",
-                        transaccion.pk,
+                        transaccion.pk
                     )
+
                     transaccion.estado_factura = "error"
 
             transaccion.save()
@@ -339,7 +352,6 @@ def verificar_pago(request, id):
             "resultado": resultado
         }
     )
-
 
 @login_required
 def mis_compras(request):
