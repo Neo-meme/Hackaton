@@ -27,3 +27,7 @@ staticfiles/
 # Sistema operativo
 .DS_Store
 Thumbs.db
+
+#bruno
+
+bruno/factus-api-collection-v2/environments/factus-env.yml

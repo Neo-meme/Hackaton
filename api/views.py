@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto, Carrito
 from .models import Producto, Carrito, Transaccion, DetalleTransaccion
 from .factuspay import crear_recaudo, consultar_recaudo
+from .factus.facturas import crear_factura
 
 def index(request):
     return redirect("login")
@@ -296,8 +297,17 @@ def verificar_pago(request, id):
     estado = resultado["data"]["status"]
 
     if estado == "paid":
-        transaccion.estado_pago = "pagado"
-        transaccion.save()
+                transaccion.estado_pago = "pagado"
+                if transaccion.estado_factura == "pendiente":
+                    try:
+                        factura_data = crear_factura(transaccion)
+                        transaccion.numero_factura = factura_data.get("number")
+                        transaccion.estado_factura = "generada"
+                    except Exception as e:
+                        print(f"Error al generar factura Factus: {e}")
+                        transaccion.estado_factura = "error"
+                transaccion.save()
+                
 
     return render(
         request,
