@@ -1,5 +1,23 @@
 from django.urls import path
-from .views import index, login_view, panel, productos, agregar_carrito, carrito, aumentar_carrito, disminuir_carrito, checkout, verificar_pago, productos_admin, crear_producto, editar_producto, eliminar_producto, cerrar_sesion
+from .views import (
+    index,
+    login_view,
+    panel,
+    productos,
+    agregar_carrito,
+    carrito,
+    aumentar_carrito,
+    disminuir_carrito,
+    checkout,
+    verificar_pago,
+    productos_admin,
+    crear_producto,
+    editar_producto,
+    eliminar_producto,
+    mis_compras,
+    compras_admin,
+    cerrar_sesion
+)
 
 urlpatterns = [
     path("", index),
@@ -17,4 +35,6 @@ urlpatterns = [
     path("carrito/disminuir/<int:id>/", disminuir_carrito, name="disminuir_carrito"),
     path("checkout/", checkout, name="checkout"),
     path("verificar-pago/<int:id>/", verificar_pago, name="verificar_pago"),
+    path("mis-compras/", mis_compras, name="mis_compras"),
+    path("panel/compras/", compras_admin, name="compras_admin"),
 ]

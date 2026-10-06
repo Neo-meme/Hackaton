@@ -317,3 +317,29 @@ def verificar_pago(request, id):
             "resultado": resultado
         }
     )
+
+
+@login_required
+def mis_compras(request):
+    compras = Transaccion.objects.filter(
+        usuario=request.user
+    ).order_by("-fecha")
+
+    return render(
+        request,
+        "mis_compras.html",
+        {"compras": compras}
+    )
+
+@login_required
+@user_passes_test(es_admin)
+def compras_admin(request):
+    compras = Transaccion.objects.select_related(
+        "usuario"
+    ).order_by("-fecha")
+
+    return render(
+        request,
+        "admin_compras.html",
+        {"compras": compras}
+    )
