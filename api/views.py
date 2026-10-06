@@ -283,31 +283,31 @@ def checkout(request):
 
 @login_required
 def verificar_pago(request, id):
-
     transaccion = get_object_or_404(
         Transaccion,
         id=id,
         usuario=request.user
     )
 
-    resultado = consultar_recaudo(
-        transaccion.referencia
-    )
-
+    resultado = consultar_recaudo(transaccion.referencia)
     estado = resultado["data"]["status"]
 
     if estado == "paid":
-                transaccion.estado_pago = "pagado"
-                if transaccion.estado_factura == "pendiente":
-                    try:
-                        factura_data = crear_factura(transaccion)
-                        transaccion.numero_factura = factura_data.get("number")
-                        transaccion.estado_factura = "generada"
-                    except Exception as e:
-                        print(f"Error al generar factura Factus: {e}")
-                        transaccion.estado_factura = "error"
-                transaccion.save()
-                
+        transaccion.estado_pago = "pagado"
+
+        if transaccion.estado_factura == "pendiente":
+            try:
+                numero_factura = crear_factura(transaccion)
+                transaccion.numero_factura = numero_factura
+                transaccion.estado_factura = "generada"
+
+                print("FACTURA GENERADA:", numero_factura)
+
+            except Exception as e:
+                print(f"Error al generar factura Factus: {e}")
+                transaccion.estado_factura = "error"
+
+        transaccion.save()
 
     return render(
         request,
