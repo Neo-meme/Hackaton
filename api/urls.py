@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import (
     index,
     login_view,
@@ -23,11 +24,11 @@ urlpatterns = [
     path("", index),
     path("login/", login_view, name="login"),
     path("productos/", productos, name="productos"),
-    path("/productos/", productos_admin, name="productos_admin"),
-    path("/productos/crear/", crear_producto, name="crear_producto"),
+    path("productos/admin/", productos_admin, name="productos_admin"),
+    path("productos/crear/", crear_producto, name="crear_producto"),
     path("logout/", cerrar_sesion, name="cerrar_sesion"),
-    path("/productos/editar/<int:id>/", editar_producto, name="editar_producto"),
-    path("/productos/eliminar/<int:id>/", eliminar_producto, name="eliminar_producto"),
+    path("productos/editar/<int:id>/", editar_producto, name="editar_producto"),
+    path("productos/eliminar/<int:id>/", eliminar_producto, name="eliminar_producto"),
     path("carrito/agregar/<int:id>/", agregar_carrito, name="agregar_carrito"),
     path("carrito/", carrito, name="carrito"),
     path("carrito/aumentar/<int:id>/", aumentar_carrito, name="aumentar_carrito"),
@@ -35,6 +36,6 @@ urlpatterns = [
     path("checkout/", checkout, name="checkout"),
     path("verificar-pago/<int:id>/", verificar_pago, name="verificar_pago"),
     path("mis-compras/", mis_compras, name="mis_compras"),
-    path("/compras/", compras_admin, name="compras_admin"),
+    path("compras/", compras_admin, name="compras_admin"),
     path("transaccion/<int:id>/factura/", factura_pdf, name="factura_pdf"),
 ]

@@ -20,16 +20,12 @@ def es_admin(usuario):
 
 
 def login_view(request):
-
     if request.user.is_authenticated:
-
         if request.user.is_staff:
             return redirect("productos_admin")
-
         return redirect("productos")
 
     if request.method == "POST":
-
         username = request.POST["username"]
         password = request.POST["password"]
 
@@ -40,7 +36,6 @@ def login_view(request):
         )
 
         if usuario is not None:
-
             login(request, usuario)
 
             if usuario.is_staff:
@@ -373,12 +368,19 @@ def compras_admin(request):
 
 
 
-
-
-
 @login_required
 def factura_pdf(request, id):
-    transaccion = get_object_or_404(Transaccion, id=id, usuario=request.user)
+    if request.user.is_staff:
+        transaccion = get_object_or_404(
+            Transaccion,
+            id=id
+        )
+    else:
+        transaccion = get_object_or_404(
+            Transaccion,
+            id=id,
+            usuario=request.user
+        )
 
     if transaccion.estado_factura != "generada" or not transaccion.numero_factura:
         raise Http404("La factura aún no está disponible")
@@ -386,9 +388,19 @@ def factura_pdf(request, id):
     try:
         contenido, nombre = descargar_pdf(transaccion.numero_factura)
     except Exception:
-        logger.exception("Error descargando PDF de factura %s", transaccion.numero_factura)
-        return HttpResponse("No se pudo obtener la factura, intenta de nuevo.", status=502)
+        logger.exception(
+            "Error descargando PDF de factura %s",
+            transaccion.numero_factura
+        )
+        return HttpResponse(
+            "No se pudo obtener la factura, intenta de nuevo.",
+            status=502
+        )
 
-    respuesta = HttpResponse(contenido, content_type="application/pdf")
+    respuesta = HttpResponse(
+        contenido,
+        content_type="application/pdf"
+    )
     respuesta["Content-Disposition"] = f'inline; filename="{nombre}"'
+
     return respuesta
