@@ -10,6 +10,18 @@
 
 <br>
 
+# 👥 EQUIPO
+
+### **Juan David Merchan González**
+
+### **Javier Alexander Buitrago Torres**
+
+### **Samuel Andrés Rojas Escobar**
+
+### **Reynel Felipe Amezquita Puentes**
+
+<br>
+
 🌐 **[PLATAFORMA ONLINE](https://saiayinesfactus.online/)**
 
 <br>
@@ -396,7 +408,7 @@ Como futuros ingenieros de sistemas, buscamos demostrar que una idea puede conve
 
 # ❤️ AGRADECIMIENTO
 
-> **Gracias, Halltec, por darnos el reto de convertir nuestras ideas en tecnología real. Como futuros ingenieros de sistemas, nos llevamos una experiencia retadora, en la que pusimos a prueba nuestra pasión, aprendizaje y conocimientos para construir una solución que nos acerca un paso más al futuro que queremos crear.**
+> **Gracias, Halltec, por darnos el reto de convertir nuestras ideas en tecnología real. Como futuros ingenieros de sistemas, nos llevamos una experiencia retadora, en la que pusimos a prueba nuestra pasión, aprendizaje y conocimientos para construir una solución que nos acerca un paso más a la vida que soñamos tener. ¡La buena!**
 
 ---
 
