@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="view-screen">
+    <main class="main-container">
+        <section class="menu-section">
+            <div class="menu-header">
+                <div>
+                    <h2>Mis compras</h2>
+                    <p class="subtitle">Consulta el historial de tus compras.</p>
+                </div>
+            </div>
+
+            <div class="purchases-list">
+                {% for compra in compras %}
+                <div class="purchase-card">
+                    <div>
+                        <h3>{{ compra.referencia }}</h3>
+                        <p>Fecha: {{ compra.fecha }}</p>
+                    </div>
+
+                    <div>
+                        <p><strong>Monto:</strong> ${{ compra.monto }}</p>
+                        <p><strong>Pago:</strong> {{ compra.estado_pago }}</p>
+                        <p><strong>Factura:</strong> {{ compra.estado_factura }}</p>
+                    </div>
+
+                    <a href="{% url 'verificar_pago' compra.id %}" class="btn btn-primary">
+                        Ver compra
+                    </a>
+                </div>
+                {% empty %}
+                <p>No tienes compras registradas.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</div>
+
+<style>
+.purchases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.purchase-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.purchase-card h3 {
+    margin-bottom: 8px;
+}
+
+.purchase-card p {
+    color: var(--text-muted);
+    margin: 5px 0;
+}
+
+@media (max-width: 700px) {
+    .purchase-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+
+{% endblock %}
