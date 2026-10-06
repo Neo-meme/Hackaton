@@ -1,54 +1,44 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <div class="view-screen">
-
     <main class="main-container">
-
         <section class="menu-section">
-
             <div class="menu-header anim-fade-down">
                 <div>
                     <h2>Estado del pago</h2>
                     <p class="subtitle">Consulta el estado actual de tu transacción.</p>
                 </div>
             </div>
-
             <div class="payment-status-card anim-fade-up">
-
                 <div class="payment-status-info anim-fade-left">
-                    <p><strong>Referencia:</strong> {{ transaccion.referencia }}</p>
-                    <p>
-                        <strong>Estado en nuestra aplicación:</strong>
-                        <span class="payment-status">{{ transaccion.estado_pago }}</span>
-                    </p>
+                    <p><strong>Referencia:</strong> {{ resultado.data.reference_code }}</p>
+                    <p><strong>Monto:</strong> ${{ resultado.data.amount }}</p>
+                    <p><strong>Estado de Factus Pay:</strong> <span class="payment-status">{{ resultado.data.status }}</span></p>
+                    <p><strong>Estado en nuestra aplicación:</strong> <span class="payment-status">{{ transaccion.estado_pago }}</span></p>
+                    <p><strong>Fecha de creación:</strong> {{ resultado.data.created_at }}</p>
                 </div>
-
                 <div class="payment-response anim-fade-up anim-delay-2">
-                    <h3>Respuesta de Factus Pay</h3>
-                    <pre>{{ resultado }}</pre>
+                    <h3>Información del pago</h3>
+                    {% if resultado.data.status == "paid" %}
+                    <div class="payment-success">✓ Pago confirmado correctamente.</div>
+                    {% elif resultado.data.status == "ready" %}
+                    <div class="payment-pending">El pago todavía está pendiente.</div>
+                    {% else %}
+                    <div class="payment-pending">Estado actual: {{ resultado.data.status }}</div>
+                    {% endif %}
                 </div>
-
                 <div class="checkout-actions anim-fade-up anim-delay-3">
                     <a href="{% url 'productos' %}">
-                        <button class="btn btn-primary anim-hover-up">
-                            Volver a productos
-                        </button>
+                        <button class="btn btn-primary anim-hover-up">Volver a productos</button>
                     </a>
                 </div>
-
             </div>
-
         </section>
-
     </main>
-
 </div>
-
-
 <style>
-    .payment-status-card {
+.payment-status-card {
     max-width: 800px;
     margin: 0 auto;
     background: var(--bg-card);
@@ -57,57 +47,34 @@
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
 }
-
 .payment-status-info {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-bottom: 25px;
 }
-
-.payment-status-info p {
-    color: var(--text-muted);
-}
-
-.payment-status-info strong {
-    color: var(--text-main);
-}
-
-.payment-status {
-    color: var(--primary);
-    font-weight: 700;
-    text-transform: capitalize;
-}
-
+.payment-status-info p { color: var(--text-muted); }
+.payment-status-info strong { color: var(--text-main); }
+.payment-status { color: var(--primary); font-weight: 700; text-transform: capitalize; }
 .payment-response {
     background-color: var(--bg-surface);
     border-radius: var(--radius-md);
     padding: 20px;
+    margin-bottom: 25px;
 }
-
-.payment-response h3 {
-    margin-bottom: 12px;
-}
-
-.payment-response pre {
-    background-color: var(--bg-dark);
-    color: white;
+.payment-response h3 { margin-bottom: 12px; }
+.payment-success, .payment-pending {
     padding: 15px;
     border-radius: var(--radius-md);
-    overflow-x: auto;
-    font-size: 0.85rem;
-    white-space: pre-wrap;
-    word-break: break-word;
+    background-color: var(--bg-card);
+    font-weight: 700;
 }
-
+.payment-success { color: var(--primary); }
+.payment-pending { color: var(--text-muted); }
+.checkout-actions { margin-top: 20px; }
 @media (max-width: 600px) {
-    .payment-status-card {
-        padding: 20px;
-    }
-
-    .payment-response {
-        padding: 15px;
-    }
+    .payment-status-card { padding: 20px; }
+    .payment-response { padding: 15px; }
 }
 </style>
 {% endblock %}
