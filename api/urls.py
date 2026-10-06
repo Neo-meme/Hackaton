@@ -16,7 +16,8 @@ from .views import (
     eliminar_producto,
     mis_compras,
     compras_admin,
-    cerrar_sesion
+    cerrar_sesion,
+    factura_pdf,
 )
 
 urlpatterns = [
@@ -37,4 +38,5 @@ urlpatterns = [
     path("verificar-pago/<int:id>/", verificar_pago, name="verificar_pago"),
     path("mis-compras/", mis_compras, name="mis_compras"),
     path("panel/compras/", compras_admin, name="compras_admin"),
+    path("transaccion/<int:id>/factura/", factura_pdf, name="factura_pdf"),
 ]

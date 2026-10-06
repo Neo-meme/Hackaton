@@ -22,6 +22,19 @@
                     <h3>Información del pago</h3>
                     {% if resultado.data.status == "paid" %}
                     <div class="payment-success">✓ Pago confirmado correctamente.</div>
+
+                    {% if transaccion.estado_factura == "generada" %}
+                    <p><strong>Factura electrónica:</strong> {{ transaccion.numero_factura }}</p>
+                    <a href="{% url 'factura_pdf' transaccion.id %}" target="_blank" rel="noopener">
+                        <button class="btn btn-primary anim-hover-up">Ver factura (PDF)</button>
+                    </a>
+                    {% elif transaccion.estado_factura == "error" %}
+                    <div class="payment-pending">
+                        Tu pago fue recibido, pero no pudimos generar la factura.
+                        Recarga la página para intentarlo de nuevo.
+                    </div>
+                    {% endif %}
+
                     {% elif resultado.data.status == "ready" %}
                     <div class="payment-pending">El pago todavía está pendiente.</div>
                     {% else %}
@@ -37,6 +50,9 @@
         </section>
     </main>
 </div>
+
+
+
 <style>
 .payment-status-card {
     max-width: 800px;

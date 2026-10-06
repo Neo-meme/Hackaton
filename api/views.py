@@ -8,6 +8,8 @@ from .models import Producto, Carrito
 from .models import Producto, Carrito, Transaccion, DetalleTransaccion
 from .factuspay import crear_recaudo, consultar_recaudo
 from .factus.facturas import crear_factura
+from django.http import Http404, HttpResponse
+from api.factus.facturas import descargar_pdf
 
 def index(request):
     return redirect("login")
@@ -281,6 +283,19 @@ def checkout(request):
     )
 
 
+import logging
+
+from django.contrib.auth.decorators import login_required
+from django.db import transaction as db_transaction
+from django.shortcuts import get_object_or_404, render
+
+from api.factus.facturas import crear_factura
+from api.models import Transaccion
+# from api.xxx import consultar_recaudo   # deja tu import actual de consultar_recaudo
+
+logger = logging.getLogger(__name__)
+
+
 @login_required
 def verificar_pago(request, id):
     transaccion = get_object_or_404(
@@ -293,21 +308,28 @@ def verificar_pago(request, id):
     estado = resultado["data"]["status"]
 
     if estado == "paid":
-        transaccion.estado_pago = "pagado"
+        with db_transaction.atomic():
+            # Bloquea la fila para que dos peticiones simultaneas
+            # no creen la factura dos veces
+            transaccion = Transaccion.objects.select_for_update().get(pk=transaccion.pk)
 
-        if transaccion.estado_factura == "pendiente":
-            try:
-                numero_factura = crear_factura(transaccion)
-                transaccion.numero_factura = numero_factura
-                transaccion.estado_factura = "generada"
+            transaccion.estado_pago = "pagado"
 
-                print("FACTURA GENERADA:", numero_factura)
+            if transaccion.estado_factura in ("pendiente", "error"):
+                try:
+                    numero_factura = crear_factura(transaccion)
+                    transaccion.numero_factura = numero_factura
+                    transaccion.estado_factura = "generada"
+                    logger.info("Factura generada: %s", numero_factura)
 
-            except Exception as e:
-                print(f"Error al generar factura Factus: {e}")
-                transaccion.estado_factura = "error"
+                except Exception:
+                    logger.exception(
+                        "Error al generar factura Factus (transaccion %s)",
+                        transaccion.pk,
+                    )
+                    transaccion.estado_factura = "error"
 
-        transaccion.save()
+            transaccion.save()
 
     return render(
         request,
@@ -343,3 +365,25 @@ def compras_admin(request):
         "admin_compras.html",
         {"compras": compras}
     )
+
+
+
+
+
+
+@login_required
+def factura_pdf(request, id):
+    transaccion = get_object_or_404(Transaccion, id=id, usuario=request.user)
+
+    if transaccion.estado_factura != "generada" or not transaccion.numero_factura:
+        raise Http404("La factura aún no está disponible")
+
+    try:
+        contenido, nombre = descargar_pdf(transaccion.numero_factura)
+    except Exception:
+        logger.exception("Error descargando PDF de factura %s", transaccion.numero_factura)
+        return HttpResponse("No se pudo obtener la factura, intenta de nuevo.", status=502)
+
+    respuesta = HttpResponse(contenido, content_type="application/pdf")
+    respuesta["Content-Disposition"] = f'inline; filename="{nombre}"'
+    return respuesta

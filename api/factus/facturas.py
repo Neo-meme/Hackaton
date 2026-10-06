@@ -18,6 +18,8 @@ def cliente_consumidor_final():
         "identification_document_code": "13",
         "identification": "22222222222",
         "names": "Consumidor Final",
+        "legal_organization_code": "2",
+        "tribute_code": "ZZ",
     }
 
 
@@ -77,3 +79,29 @@ def crear_factura(transaccion):
         )
 
     return respuesta.json()["data"]["number"]
+
+
+import base64
+
+
+def descargar_pdf(numero_factura):
+    respuesta = requests.get(
+        f"{os.getenv('FACTUS_URL')}/v2/bills/{numero_factura}/download-pdf",
+        headers={
+            "Authorization": f"Bearer {obtener_token()}",
+            "Accept": "application/json",
+        },
+        timeout=60,
+    )
+
+    if respuesta.status_code != 200:
+        raise Exception(
+            f"Error descargando PDF ({respuesta.status_code}): {respuesta.text}"
+        )
+
+    datos = respuesta.json()["data"]
+    contenido = base64.b64decode(datos["pdf_base_64_encoded"])
+    nombre = datos.get("file_name") or f"{numero_factura}.pdf"
+    if not nombre.lower().endswith(".pdf"):
+        nombre += ".pdf"
+    return contenido, nombre
