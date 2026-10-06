@@ -24,7 +24,7 @@ def login_view(request):
     if request.user.is_authenticated:
 
         if request.user.is_staff:
-            return redirect("panel")
+            return redirect("productos_admin")
 
         return redirect("productos")
 
@@ -44,7 +44,7 @@ def login_view(request):
             login(request, usuario)
 
             if usuario.is_staff:
-                return redirect("panel")
+                return redirect("productos_admin")
 
             return redirect("productos")
 
@@ -55,13 +55,6 @@ def login_view(request):
         )
 
     return render(request, "login.html")
-
-
-@login_required
-@user_passes_test(es_admin)
-def panel(request):
-    return render(request, "panel.html")
-
 
 @login_required
 def productos(request):

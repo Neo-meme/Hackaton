@@ -2,7 +2,6 @@ from django.urls import path
 from .views import (
     index,
     login_view,
-    panel,
     productos,
     agregar_carrito,
     carrito,
@@ -23,7 +22,6 @@ from .views import (
 urlpatterns = [
     path("", index),
     path("login/", login_view, name="login"),
-    path("panel/", panel, name="panel"),
     path("productos/", productos, name="productos"),
     path("panel/productos/", productos_admin, name="productos_admin"),
     path("panel/productos/crear/", crear_producto, name="crear_producto"),
