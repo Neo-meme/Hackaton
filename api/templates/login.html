@@ -84,4 +84,91 @@
     </div>
 </div>
 
+<style>
+/* PARCHE SOLO PARA LOGIN EN MOVIL */
+@media (max-width: 600px) {
+
+    html,
+    body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    #loginView {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding: 20px 12px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        align-items: flex-start !important;
+    }
+
+    .login-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        margin: 0 !important;
+    }
+
+    .login-card,
+    .login-info-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .login-card {
+        padding: 28px 20px !important;
+    }
+
+    .login-info-panel {
+        padding: 16px !important;
+    }
+
+    .info-images-grid {
+        width: 100% !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .info-image-box {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 180px !important;
+    }
+
+    .info-image-box img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .info-text-box {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        padding: 16px !important;
+    }
+
+    .info-text-box p {
+        max-width: 100% !important;
+        overflow-wrap: break-word !important;
+    }
+
+    .login-credentials {
+        width: 100% !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .credential-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
+</style>
 {% endblock %}

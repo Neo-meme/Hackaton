@@ -32,7 +32,7 @@ body {
 
 /* MANEJO Y CONTROL DE PANTALLAS (VISTAS) */
 .view-screen {
-  min-height: calc(100vh - 80px);
+  /* min-height: calc(100vh - 80px); */
   flex: 1;
 }
 
